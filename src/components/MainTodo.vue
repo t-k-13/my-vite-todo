@@ -26,8 +26,8 @@ const editTodo = () => {
 
   todo.task = todoRef.value;
   todoListRef.value.splice(idx, 1, todo);
-
   localStorage.todoList = JSON.stringify(todoListRef.value);
+
   isEditRef.value = false;
   editId = -1;
   todoRef.value = '';
@@ -41,6 +41,10 @@ const deleteTodo = (id) => {
 
   todoListRef.value.splice(idx, 1);
   localStorage.todoList = JSON.stringify(todoListRef.value);
+
+  isEditRef.value = false;
+  editId = -1;
+  todoRef.value = '';
 };
 </script>
 
