@@ -6,7 +6,7 @@ export const useTodoList = (id) => {
   );
   const add = (task) => {
     const id = new Date().getTime();
-    todoListRef.value.push({ id: id, task: task });
+    todoListRef.value.push({ id: id, task: task, checked: false });
     localStorage.todoList = JSON.stringify(todoListRef.value);
   };
   const editId = ref(-1);
@@ -25,12 +25,12 @@ export const useTodoList = (id) => {
     editId.value = -1;
   };
   const del = (id) => {
-    const todo = findById(editId.value);
+    const todo = findById(id);
 
     const delMsg = '「' + todo.task + '」を削除しますか？';
     if (!confirm(delMsg)) return;
 
-    const idx = findIndexById(editId.value);
+    const idx = findIndexById(id);
     todoListRef.value.splice(idx, 1);
     localStorage.todoList = JSON.stringify(todoListRef.value);
 
