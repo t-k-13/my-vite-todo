@@ -1,50 +1,30 @@
 <script setup>
 import { ref } from 'vue';
+import { useTodoList } from '../composables/useTodoList';
 const todoRef = ref('');
-const todoListRef = ref([]);
-const ls = localStorage.todoList;
-todoListRef.value = ls ? JSON.parse(ls) : [];
+const isEditRef = ref(false);
+const { todoListRef, add, show, edit, del, check } = useTodoList();
 
 const addTodo = () => {
-  const id = new Date().getTime();
-  todoListRef.value.push({ id: id, task: todoRef.value });
-  localStorage.todoList = JSON.stringify(todoListRef.value);
+  add(todoRef.value);
   todoRef.value = '';
 };
-
-const isEditRef = ref(false);
-let editId = -1;
 const showTodo = (id) => {
-  const todo = todoListRef.value.find((todo) => todo.id === id);
-  todoRef.value = todo.task;
+  todoRef.value = show(id);
   isEditRef.value = true;
-  editId = id;
 };
 const editTodo = () => {
-  const todo = todoListRef.value.find((todo) => todo.id === editId);
-  const idx = todoListRef.value.findIndex((todo) => todo.id === editId);
-
-  todo.task = todoRef.value;
-  todoListRef.value.splice(idx, 1, todo);
-  localStorage.todoList = JSON.stringify(todoListRef.value);
-
+  edit(todoRef.value);
   isEditRef.value = false;
-  editId = -1;
   todoRef.value = '';
 };
 const deleteTodo = (id) => {
-  const todo = todoListRef.value.find((todo) => todo.id === id);
-  const idx = todoListRef.value.findIndex((todo) => todo.id === id);
-
-  const delMsg = '「' + todo.task + '」を削除しますか？';
-  if (!confirm(delMsg)) return;
-
-  todoListRef.value.splice(idx, 1);
-  localStorage.todoList = JSON.stringify(todoListRef.value);
-
+  del(id);
   isEditRef.value = false;
-  editId = -1;
   todoRef.value = '';
+};
+const changeCheck = (id) => {
+  check(id);
 };
 </script>
 
@@ -62,7 +42,7 @@ const deleteTodo = (id) => {
   <div class="box_list">
     <div class="todo_list" v-for="todo in todoListRef" :key="todo.id">
       <div class="todo">
-        <input type="checkbox" class="check" />
+        <input type="checkbox" class="check" @click="changeCheck(todo.id)" />
         <label>{{ todo.task }}</label>
       </div>
       <div class="btns">
