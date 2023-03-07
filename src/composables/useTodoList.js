@@ -1,4 +1,4 @@
-import { ref } from 'vue';
+import { computed, ref } from 'vue';
 
 export const useTodoList = (id) => {
   const todoListRef = ref(
@@ -50,5 +50,10 @@ export const useTodoList = (id) => {
     return todoListRef.value.findIndex((todo) => todo.id === id);
   };
 
-  return { todoListRef, add, show, edit, del, check };
+  const countFin = computed(() => {
+    const finArr = todoListRef.value.filter((todo) => todo.checked);
+    return finArr.length;
+  });
+
+  return { todoListRef, add, show, edit, del, check, countFin };
 };
