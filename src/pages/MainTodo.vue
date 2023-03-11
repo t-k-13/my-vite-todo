@@ -1,14 +1,15 @@
 <script setup>
 import { ref } from 'vue';
 import { useTodoList } from '../composables/useTodoList';
-import ButtonAdd from './Buttons/ButtonAdd.vue';
-import ButtonEditDone from './Buttons/ButtonEditDone.vue';
-import ButtonEdit from './Buttons/ButtonEdit.vue';
-import ButtonDelete from './Buttons/ButtonDelete.vue';
+import ButtonAdd from '../components/Buttons/ButtonAdd.vue';
+import ButtonEditDone from '../components/Buttons/ButtonEditDone.vue';
+import ButtonEdit from '../components/Buttons/ButtonEdit.vue';
+import ButtonDelete from '../components/Buttons/ButtonDelete.vue';
 const todoRef = ref('');
 const isEditRef = ref(false);
 const { todoListRef, add, show, edit, del, check, countFin } = useTodoList();
 
+//#region Handler
 const addTodo = () => {
   add(todoRef.value);
   todoRef.value = '';
@@ -30,11 +31,13 @@ const deleteTodo = (id) => {
 const changeCheck = (id) => {
   check(id);
 };
+//#endregion
 </script>
 
 <template>
   <div class="box_input">
     <input
+      id="inp"
       type="text"
       class="todo_input"
       v-model="todoRef"
