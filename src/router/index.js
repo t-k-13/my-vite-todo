@@ -14,14 +14,14 @@ const routes = [
     component: () => import('/src/pages/About.vue'),
   },
   {
-    path: '/blog/:id',
-    name: 'BlogId',
-    component: () => import('/src/pages/Blog.vue'),
-  },
-  {
     path: '/blog',
     name: 'Blog',
     component: () => import('/src/pages/Blog.vue'),
+  },
+  {
+    path: '/blog/:id',
+    name: 'BlogDetail',
+    component: () => import('/src/pages/BlogDetail.vue'),
   },
   {
     path: '/:pathMatch(.*)*',
